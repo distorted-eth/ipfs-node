@@ -18,20 +18,25 @@ ipfs --version
 echo "Setting up IPFS daemon"
 export IPFS_PATH="$1"
 ipfs init --profile server
-echo "[Unit]
-Description=IPFS Daemon
 
-[Service]
-ExecStart=/usr/local/bin/ipfs daemon
-User=root
-Restart=always
-LimitNOFILE=10240
-Environment=\"IPFS_PATH=$1\"
-Restart=on-failure
-RestartSec=5s
+# I found that all the commented lines below were already ending up in a Unit file, so appending the lines below was causing the same options to appear twice. 
+# I need to double-check this, but the file was definitely coming in wrong.
 
-[Install]
-WantedBy=multi-user.target" >>/etc/systemd/system/ipfs.service
+#echo "[Unit]
+#Description=IPFS Daemon
+
+#[Service]
+#ExecStart=/usr/local/bin/ipfs daemon
+#User=root
+#Restart=always
+#LimitNOFILE=10240
+#Environment=\"IPFS_PATH=$1\"
+#Restart=on-failure
+#RestartSec=5s
+
+#[Install]
+#WantedBy=multi-user.target" >>/etc/systemd/system/ipfs.service
+
 sudo systemctl daemon-reload
 sudo systemctl enable ipfs
 sudo systemctl start ipfs
