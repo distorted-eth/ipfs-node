@@ -5,7 +5,7 @@ Current status:
 - ECS maxes out at 20GB of storage, not even half of what we need. Only other option is to use an EFS share. 
   - For general public, probably makes more sense to run as a standard EC2 node and use a Dockerfile to create the image, then build the image to expose port 4001. 
   
-
+test
 
 You can remove the config and repo.lock files and re-init while keeping all pinned content safely on the system, meaning that we can copy the data in blocks/, datastore/, keystore/, update-staging/, version, and datastore_spec. Keeping these files reduces transfer costs and times since all data won't need to be copied around.
   
