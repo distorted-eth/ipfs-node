@@ -1,5 +1,14 @@
 Current status:
 - IPFS node works great! Confirmed that peers are populating, and it appears content is available, although I haven't found a 100% certain way to access content from a specific node.
-- The current init strategy isn't optimal, because there is a "config" file created that populates with a pvt key and networking; this will need to be initialized on every container startup.
 - It would be best to run a "pin add" on a live EC2 instance, then copy those resulting files into the container via Dockerfile, so that transfer costs and the long wait to download all the pin files can be avoided. 
   - Can I add the resulting docker image to Docker Hub? That might be the easiest approach. Otherwise we'd have to host IPFS files in GH to be copied over which is also not optimal. 
+- ECS maxes out at 20GB of storage, not even half of what we need. Only other option is to use an EFS share. 
+  - For general public, probably makes more sense to run as a standard EC2 node and use a Dockerfile to create the image, then build the image to expose port 4001. 
+  
+
+
+You can remove the config and repo.lock files and re-init while keeping all pinned content safely on the system, meaning that we can copy the data in blocks/, datastore/, keystore/, update-staging/, version, and datastore_spec. Keeping these files reduces transfer costs and times since all data won't need to be copied around.
+  
+  Files to remove from IPFS config folder:
+  - config
+  - repo.lock 
